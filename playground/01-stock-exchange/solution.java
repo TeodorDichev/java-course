@@ -1,5 +1,3 @@
-package bg.sofia.uni.fmi.mjt.show;
-
 import java.util.Scanner;
 
 //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/
