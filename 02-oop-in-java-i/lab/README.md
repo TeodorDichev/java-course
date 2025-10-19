@@ -10,69 +10,72 @@
 И понеже явно вие сте единствените, които имате желанието (*нямате избор*) да помагат на продукцията, вие трябва да имплементирате симулатора 💻.
 
 
-## ShowAPI
+## src.bg.sofia.uni.fmi.mjt.show.ShowAPI
 
 ---
-Това е основният интерфейс на играта. През него ще можете да получавате информация за оставащите участнички, да изигравате един кръг от играта, да елиминирате участнички посредством `EliminationRule` и да организирате среща между Ергена и една от тях:
+Това е основният интерфейс на играта. През него ще можете да получавате информация за оставащите участнички, да изигравате един кръг от играта, да елиминирате участнички посредством `elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule` и да организирате среща между Ергена и една от тях:
 
 ```java
 package bg.sofia.uni.fmi.mjt.show;
 
-import bg.sofia.uni.fmi.mjt.show.ergenka.Ergenka;
 import bg.sofia.uni.fmi.mjt.show.date.DateEvent;
-import bg.sofia.uni.fmi.mjt.show.elimination.EliminationRule;
+import bg.sofia.uni.fmi.mjt.show.ergenka.src.ergenka.Ergenka;
+import bg.sofia.uni.fmi.mjt.show.date.bg.sofia.uni.fmi.mjt.show.date.DateEvent;
+import bg.sofia.uni.fmi.mjt.show.elimination.elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule;
 
 /**
  * Public API for controlling the show.
  */
-public interface ShowAPI {
+public interface src.
+
+ShowAPI {
 
     /**
      * Returns the current ergenkas participating in the show.
      *
      * @return an array of ergenkas, never {@code null}; may be empty
      */
-    Ergenka[] getErgenkas();
+    ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka[] getErgenkas ();
 
     /**
-     * Plays a full round using the provided {@link DateEvent}.
+     * Plays a full round using the provided {@link bg.sofia.uni.fmi.mjt.show.date.DateEvent}.
      *
      * @param dateEvent the event to play during the round, never {@code null}
      */
-    void playRound(DateEvent dateEvent);
+    void playRound (bg.sofia.uni.fmi.mjt.show.date.DateEvent dateEvent);
 
     /**
      * Applies a sequence of elimination rules to the current ergenkas.
      *
      * @param eliminationRules the rules to apply
      */
-    void eliminateErgenkas(EliminationRule[] eliminationRules);
+    void eliminateErgenkas (elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule[]eliminationRules);
 
     /**
-     * Performs a single date with the ergenkas {@link DateEvent}.
+     * Performs a single date with the ergenkas {@link bg.sofia.uni.fmi.mjt.show.date.DateEvent}.
      *
      * @param ergenka the ergenka participating in the date, never {@code null}
      * @param dateEvent the date event to organize, never {@code null}
      */
-    void organizeDate(Ergenka ergenka, DateEvent dateEvent);
+    void organizeDate (ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka ergenka, bg.sofia.uni.fmi.mjt.show.date.DateEvent dateEvent);
 
 }
 ```
 
-Очакваме от вас да създадете имплементация `ShowAPIImpl` на интерфейса `ShowAPI` в пакета `bg.sofia.uni.fmi.mjt.show`, със следния конструктор:
+Очакваме от вас да създадете имплементация `bg.sofia.uni.fmi.mjt.show.ShowAPIImpl` на интерфейса `src.bg.sofia.uni.fmi.mjt.show.ShowAPI` в пакета `bg.sofia.uni.fmi.mjt.show`, със следния конструктор:
 
 ```
-public ShowAPIImpl(Ergenka[] ergenkas, EliminationRule[] defaultEliminationRules)
+public bg.sofia.uni.fmi.mjt.show.ShowAPIImpl(ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka[] ergenkas, elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule[] defaultEliminationRules)
 ```
 
-В тази имплементация един рунд се провежда, като Ергенът се среща с всяка от участничките в играта при едни и същи условия - т.е. използвайки един и същи `DateEvent`.
+В тази имплементация един рунд се провежда, като Ергенът се среща с всяка от участничките в играта при едни и същи условия - т.е. използвайки един и същи `bg.sofia.uni.fmi.mjt.show.date.DateEvent`.
 
-Класът `DateEvent` го имате наготово и не е необходимо да го променяте. Той изглежда така:
+Класът `bg.sofia.uni.fmi.mjt.show.date.DateEvent` го имате наготово и не е необходимо да го променяте. Той изглежда така:
 
 ```java
 package bg.sofia.uni.fmi.mjt.show.date;
 
-public class DateEvent {
+public class bg.sofia.uni.fmi.mjt.show.date.DateEvent {
     private static final int TENSION_LEVEL_MIN = 0;
     private static final int TENSION_LEVEL_MAX = 10;
 
@@ -80,7 +83,7 @@ public class DateEvent {
     private final int tensionLevel;
     private final int duration;
 
-    public DateEvent(String location, int tensionLevel, int duration) {
+    public bg.sofia.uni.fmi.mjt.show.date.DateEvent(String location, int tensionLevel, int duration) {
         this.location = location;
         this.duration = duration;
         if (tensionLevel < TENSION_LEVEL_MIN) {
@@ -104,124 +107,130 @@ public class DateEvent {
 }
 ```
 
-След това участничките преминават през *елиминация*, като за целта се прилагат едно или повече `EliminationRule`, подадени на метода 
+След това участничките преминават през *елиминация*, като за целта се прилагат едно или повече `elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule`, подадени на метода 
 
 ```
-void eliminateErgenkas(EliminationRule[] eliminationRules)
+void eliminateErgenkas(elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule[] eliminationRules)
 ```
 
 Ако масивът с правила е празен, да се приложат правилата по подразбиране.
 
-## Ergenka
+## ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka
 
 ---
-В играта могат да участват различни видове участнички - забавни, романтични и т.н. Всички те имплементират интерфейса `Ergenka`, който изглежда по следния начин:
+В играта могат да участват различни видове участнички - забавни, романтични и т.н. Всички те имплементират интерфейса `ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka`, който изглежда по следния начин:
 
 ```java
 package bg.sofia.uni.fmi.mjt.show.ergenka;
 
 import bg.sofia.uni.fmi.mjt.show.date.DateEvent;
+import bg.sofia.uni.fmi.mjt.show.date.bg.sofia.uni.fmi.mjt.show.DateEvent;
 
 /**
  * Represents an ergenka participating in the show.
  *
  * Implementations must provide the ergenka's basic attributes (name, age)
- * and performance metrics (romance, humor, rating). The {@link #reactToDate(DateEvent)}
- * method allows an ergenka to update her internal state when participating in a {@link DateEvent}.
+ * and performance metrics (romance, humor, rating). The {@link #reactToDate(bg.sofia.uni.fmi.mjt.show.date.DateEvent)}
+ * method allows an ergenka to update her internal state when participating in a {@link bg.sofia.uni.fmi.mjt.show.date.DateEvent}.
  */
-public interface Ergenka {
+public interface ergenka.bg.sofia.uni.fmi.mjt.show.
+
+Ergenka {
 
     /**
      * Returns the ergenka's full name. The name of each ergenka is a unique identifier.
      *
      * @return the name of the ergenka, never {@code null}
      */
-    String getName();
+    String getName ();
 
     /**
      * Returns the ergenka's age in years.
      *
      * @return the age as a short
      */
-    short getAge();
+    short getAge ();
 
     /**
      * Returns the ergenka's romance level.
      *
      * @return an integer representing the romance level
      */
-    int getRomanceLevel();
+    int getRomanceLevel ();
 
     /**
      * Returns the ergenka's humor level.
      *
      * @return an integer representing the humor level
      */
-    int getHumorLevel();
+    int getHumorLevel ();
 
     /**
      * Returns the ergenka's current rating.
      *
      * @return the rating as an integer
      */
-    int getRating();
+    int getRating ();
 
     /**
-     * Reacts to a {@link DateEvent} and updates internal state accordingly.
+     * Reacts to a {@link bg.sofia.uni.fmi.mjt.show.date.DateEvent} and updates internal state accordingly.
      *
      * @param dateEvent the date event the ergenka participates in, never {@code null}
      */
-    void reactToDate(DateEvent dateEvent);
+    void reactToDate (bg.sofia.uni.fmi.mjt.show.date.DateEvent dateEvent);
 
 }
 
 ```
-Методът `reactToDate(DateEvent dateEvent)` променя рейтинга на участничката по различен начин в зависимост от вида ѝ.
+Методът `reactToDate(bg.sofia.uni.fmi.mjt.show.date.DateEvent dateEvent)` променя рейтинга на участничката по различен начин в зависимост от вида ѝ.
 
 Трябва да създадете два вида участнички с посочените по-долу публични конструктори:
 
 ```java
-public RomanticErgenka(String name, short age, int romanceLevel, int humorLevel, int rating, String favoriteDateLocation)
+public ergenka.bg.sofia.uni.fmi.mjt.show.RomanticErgenka(String name, short age, int romanceLevel, int humorLevel, int rating, String favoriteDateLocation)
 ```
 
-За `RomanticErgenka` **промяната** на рейтинга се изчислява така:
+За `ergenka.bg.sofia.uni.fmi.mjt.show.RomanticErgenka` **промяната** на рейтинга се изчислява така:
 
 $`\frac{romance\_level * 7}{date\_tension\_level} + \lfloor humor\_level / 3 \rfloor + bonuses`$
 
-**Бонуси за `RomanticErgenka`**:
+**Бонуси за `ergenka.bg.sofia.uni.fmi.mjt.show.RomanticErgenka`**:
 - +5 точки, ако локацията на срещата е любима на участника (case insensitive)
 - -3 точки, ако срещата е прекалено кратка (<30 мин)
 - -2 точки, ако срещата е прекалено дълга (>120 мин)
 
 ```java
-public HumorousErgenka(String name, short age, int romanceLevel, int humorLevel, int rating)
+public ergenka.bg.sofia.uni.fmi.mjt.show.HumorousErgenka(String name, short age, int romanceLevel, int humorLevel, int rating)
 ```
 
-За `HumorousErgenka` **промяната** на рейтинга се изчислява така:
+За `ergenka.bg.sofia.uni.fmi.mjt.show.HumorousErgenka` **промяната** на рейтинга се изчислява така:
 
 $`\frac{humor\_level * 5}{date\_tension\_level} + \lfloor romance\_level / 3 \rfloor + bonuses`$
 
-**Бонуси за `HumorousErgenka`**:
+**Бонуси за `ergenka.bg.sofia.uni.fmi.mjt.show.HumorousErgenka`**:
 - +4 точки, ако срещата е разумно дълга (>= 30 мин и <= 90 мин)
 - -2 точки, ако срещата е прекалено кратка (<30 мин)
 - -3 точки, ако срещата е прекалено дълга (>90 мин)
 
 > 🔍 Синтаксисът $`\lfloor x \rfloor`$ означава закръгляне надолу до най-близкото цяло число.
 
-## EliminationRule
+## elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule
 
 ---
-Участничките в играта могат да отпадат според различни правила за елиминация. Всички правила имплементират интерфейса `EliminationRule`, който изглежда така:
+Участничките в играта могат да отпадат според различни правила за елиминация. Всички правила имплементират интерфейса `elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule`, който изглежда така:
 
 ```java
 package bg.sofia.uni.fmi.mjt.show.elimination;
 
 import bg.sofia.uni.fmi.mjt.show.ergenka.Ergenka;
+import bg.sofia.uni.fmi.mjt.show.ergenka.src.ergenka.Ergenka;
 
 /**
  * Defines a rule used to eliminate ergenkas from the show.
  */
-public interface EliminationRule {
+public interface src.elimination.
+
+EliminationRule {
 
     /**
      * Applies the elimination rule to the provided ergenkas.
@@ -229,7 +238,7 @@ public interface EliminationRule {
      * @param ergenkas the current ergenkas, never {@code null}
      * @return an array with ergenkas that remain after elimination, never {@code null}
      */
-    Ergenka[] eliminateErgenkas(Ergenka[] ergenkas);
+    ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka[] eliminateErgenkas (ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka[]ergenkas);
 
 }
 
@@ -238,23 +247,23 @@ public interface EliminationRule {
 От вас се очаква да имплементирате три правила за елиминация.
 
 ```java
-public LowestRatingEliminationRule()
+public elimination.bg.sofia.uni.fmi.mjt.show.LowestRatingEliminationRule()
 ```
-`LowestRatingEliminationRule` - елиминира участничката (или участничките) с най-нисък рейтинг (при равен рейтинг си отиват всички със съответния такъв)
+`elimination.bg.sofia.uni.fmi.mjt.show.LowestRatingEliminationRule` - елиминира участничката (или участничките) с най-нисък рейтинг (при равен рейтинг си отиват всички със съответния такъв)
 
 ```java
-public LowAttributeSumEliminationRule(int threshold)
+public elimination.bg.sofia.uni.fmi.mjt.show.LowAttributeSumEliminationRule(int threshold)
 ```
-`LowAttributeSumEliminationRule` - елиминира участничките, чийто сбор на `humorLevel` и `romanceLevel` е по-малък от `threshold`
+`elimination.bg.sofia.uni.fmi.mjt.show.LowAttributeSumEliminationRule` - елиминира участничките, чийто сбор на `humorLevel` и `romanceLevel` е по-малък от `threshold`
 
 ```java
-public PublicVoteEliminationRule(String[] votes)
+public elimination.bg.sofia.uni.fmi.mjt.show.PublicVoteEliminationRule(String[] votes)
 ```
-`PublicVoteEliminationRule` - елиминира участничката, която има 50% + 1 гласа от публиката (ако няма такава, не елиминира никого)
+`elimination.bg.sofia.uni.fmi.mjt.show.PublicVoteEliminationRule` - елиминира участничката, която има 50% + 1 гласа от публиката (ако няма такава, не елиминира никого)
 
 ### Бележка
 
->За намирането на участничката с 50% + 1 гласа в `PublicVoteEliminationRule` има тривиален алгоритъм със сложност по време $O(n^2)$
+>За намирането на участничката с 50% + 1 гласа в `elimination.bg.sofia.uni.fmi.mjt.show.PublicVoteEliminationRule` има тривиален алгоритъм със сложност по време $O(n^2)$
 и малко по-малко тривиален алгоритъм със сложност по време, а и по памет, $O(n)$. Бързодействието на вашето решение няма да бъде тествано, така че сте свободни да направите каквото смятате за добре. Хубавият алгоритъм се нарича *Алгоритъм на Boyer–Moore*. За него може да прочетете повече [тук](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_majority_vote_algorithm).
 
 ## Структура
@@ -265,21 +274,21 @@ public PublicVoteEliminationRule(String[] votes)
 ```
 src
 └── bg.sofia.uni.fmi.mjt.show
-    ├── ShowAPI.java
-    ├── ShowAPIImpl.java
+    ├── src.bg.sofia.uni.fmi.mjt.show.ShowAPI.java
+    ├── bg.sofia.uni.fmi.mjt.show.ShowAPIImpl.java
     ├── ergenka
-    │   ├── Ergenka.java
-    │   ├── HumorousErgenka.java
-    │   ├── RomanticErgenka.java
+    │   ├── ergenka.bg.sofia.uni.fmi.mjt.show.Ergenka.java
+    │   ├── ergenka.bg.sofia.uni.fmi.mjt.show.HumorousErgenka.java
+    │   ├── ergenka.bg.sofia.uni.fmi.mjt.show.RomanticErgenka.java
     │   └── (...)
     ├── elimination
-    │   ├── EliminationRule.java
-    │   ├── LowestRatingEliminationRule.java
-    │   ├── LowAttributeSumEliminationRule.java
-    │   ├── PublicVoteEliminationRule.java
+    │   ├── elimination.bg.sofia.uni.fmi.mjt.show.EliminationRule.java
+    │   ├── elimination.bg.sofia.uni.fmi.mjt.show.LowestRatingEliminationRule.java
+    │   ├── elimination.bg.sofia.uni.fmi.mjt.show.LowAttributeSumEliminationRule.java
+    │   ├── elimination.bg.sofia.uni.fmi.mjt.show.PublicVoteEliminationRule.java
     │   └── (...)
     └── date
-        └── DateEvent.java
+        └── bg.sofia.uni.fmi.mjt.show.date.DateEvent.java
 ```
 
 ---
