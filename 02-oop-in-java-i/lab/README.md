@@ -86,11 +86,7 @@ public class bg.sofia.uni.fmi.mjt.show.date.DateEvent {
     public bg.sofia.uni.fmi.mjt.show.date.DateEvent(String location, int tensionLevel, int duration) {
         this.location = location;
         this.duration = duration;
-        if (tensionLevel < TENSION_LEVEL_MIN) {
-            this.tensionLevel = TENSION_LEVEL_MIN;
-        } else {
-            this.tensionLevel = Math.min(tensionLevel, TENSION_LEVEL_MAX);
-        }
+        this.tensionLevel = Math.clamp(tensionLevel, TENSION_LEVEL_MIN, TENSION_LEVEL_MAX);
     }
 
     public String getLocation() {
