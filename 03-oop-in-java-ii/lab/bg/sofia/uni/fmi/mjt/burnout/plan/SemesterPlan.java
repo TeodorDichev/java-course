@@ -15,5 +15,17 @@ import bg.sofia.uni.fmi.mjt.burnout.subject.SubjectRequirement;
  * @throws IllegalArgumentException if the minimalAmountOfCredits is negative
  */
 public record SemesterPlan(UniversitySubject[] subjects, SubjectRequirement[] subjectRequirements, int minimalAmountOfCredits) {
+    public SemesterPlan {
+        if(subjects == null) {
+            throw new IllegalArgumentException("Semester plan subjects array is null");
+        }
 
+        if(subjectRequirements == null) {
+            throw new IllegalArgumentException("Semester plan subject requirements array is null");
+        }
+
+        if(minimalAmountOfCredits < 0) {
+            throw new IllegalArgumentException("Minimal amount of credits cannot be null");
+        }
+    }
 }
