@@ -17,8 +17,7 @@ public final class SoftwareEngineeringSemesterPlanner extends AbstractSemesterPl
             throw new IllegalArgumentException("Semester plan is null");
         }
 
-        UniversitySubject[] subjects = semesterPlan.subjects();
-        SubjectRequirement[] requirements = semesterPlan.subjectRequirements();
+        UniversitySubject[] subjects = semesterPlan.subjects(); // copy because we sort it
         int minCredits = semesterPlan.minimalAmountOfCredits();
 
         // check duplicate categories
@@ -31,7 +30,7 @@ public final class SoftwareEngineeringSemesterPlanner extends AbstractSemesterPl
         int totalCredits = 0;
 
         // satisfy category minimums
-        for (SubjectRequirement requirement : requirements) {
+        for (SubjectRequirement requirement : semesterPlan.subjectRequirements()) {
             Category cat = requirement.category();
             int needed = requirement.minAmountEnrolled();
             int added = 0;
@@ -53,7 +52,7 @@ public final class SoftwareEngineeringSemesterPlanner extends AbstractSemesterPl
             }
         }
 
-        if(totalCredits < minCredits) {
+        if (totalCredits < minCredits) {
             throw new CryToStudentsDepartmentException("Software engineering student unable to get minimal credits");
         }
 
@@ -72,32 +71,5 @@ public final class SoftwareEngineeringSemesterPlanner extends AbstractSemesterPl
                 }
             }
         }
-    }
-
-    private static void containsDuplicates(SubjectRequirement[] requirements) {
-        for (int i = 0; i < requirements.length; i++) {
-            for (int j = i + 1; j < requirements.length; j++) {
-                if (requirements[i].category() == requirements[j].category()) {
-                    throw new InvalidSubjectRequirementsException("Duplicate category");
-                }
-            }
-        }
-    }
-
-    private static boolean contains(UniversitySubject[] arr, UniversitySubject s) {
-        for (UniversitySubject universitySubject : arr) {
-            if (universitySubject == s) return true;
-        }
-        return false;
-    }
-
-    private static UniversitySubject[] append(UniversitySubject[] arr, UniversitySubject s) {
-        UniversitySubject[] result = new UniversitySubject[arr.length + 1];
-
-        // same as a for loop
-        System.arraycopy(arr, 0, result, 0, arr.length);
-        result[arr.length] = s;
-
-        return result;
     }
 }

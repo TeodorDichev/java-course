@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.show.elimination;
 
 import bg.sofia.uni.fmi.mjt.show.ergenka.Ergenka;
 
-public class PublicVoteEliminationRule implements  EliminationRule {
+public class PublicVoteEliminationRule implements EliminationRule {
     private String[] votes;
 
     public PublicVoteEliminationRule(String[] votes) {
@@ -13,8 +13,8 @@ public class PublicVoteEliminationRule implements  EliminationRule {
     public Ergenka[] eliminateErgenkas(Ergenka[] ergenkas) {
         String majorityVote = votes[0];
         int cnt = 0;
-        for(String vote : votes) {
-            if(cnt == 0) {
+        for (String vote : votes) {
+            if (cnt == 0) {
                 majorityVote = vote;
                 cnt = 1;
             } else if (majorityVote.equalsIgnoreCase(vote)) {
@@ -25,14 +25,14 @@ public class PublicVoteEliminationRule implements  EliminationRule {
         }
 
         int realCount = 0;
-        for(String vote : votes) {
-            if(majorityVote.equalsIgnoreCase(vote)) {
+        for (String vote : votes) {
+            if (majorityVote.equalsIgnoreCase(vote)) {
                 realCount++;
             }
         }
 
         int len = ergenkas.length;
-        if(realCount <= len / 2) {
+        if (realCount <= len / 2) {
             return ergenkas;
         }
 

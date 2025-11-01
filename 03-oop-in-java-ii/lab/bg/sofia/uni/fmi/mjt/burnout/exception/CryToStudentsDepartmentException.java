@@ -4,6 +4,7 @@ public class CryToStudentsDepartmentException extends RuntimeException {
     public CryToStudentsDepartmentException(String message) {
         super(message);
     }
+
     public CryToStudentsDepartmentException(String message, Throwable cause) {
         super(message, cause);
     }

@@ -9,10 +9,9 @@ import bg.sofia.uni.fmi.mjt.burnout.subject.UniversitySubject;
 
 import java.util.Arrays;
 
-
 public class Main {
 
-    public static void main(String... args) throws InvalidSubjectRequirementsException {
+    static void main(String... args) throws InvalidSubjectRequirementsException {
         SoftwareEngineeringSemesterPlanner planner = new SoftwareEngineeringSemesterPlanner();
 
         UniversitySubject[] subjects = {

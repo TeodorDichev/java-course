@@ -2,7 +2,7 @@ package bg.sofia.uni.fmi.mjt.show.elimination;
 
 import bg.sofia.uni.fmi.mjt.show.ergenka.Ergenka;
 
-public class LowestRatingEliminationRule implements EliminationRule{
+public class LowestRatingEliminationRule implements EliminationRule {
     @Override
     public Ergenka[] eliminateErgenkas(Ergenka[] ergenkas) {
         int lowestRating = Integer.MAX_VALUE;

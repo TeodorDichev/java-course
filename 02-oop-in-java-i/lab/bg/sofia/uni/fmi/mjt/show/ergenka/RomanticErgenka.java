@@ -16,13 +16,13 @@ public class RomanticErgenka extends ParticipatingErgenka {
         rating += ((getRomanceLevel() * 7) / dateEvent.getTensionLevel()) + (getHumorLevel() / 3);
 
         int dateDuration = dateEvent.getDuration();
-        if(dateDuration < super.tooShortDateDuration) {
+        if (dateDuration < super.tooShortDateDuration) {
             rating -= 3;
         } else if (dateDuration > super.tooLongDateDuration) {
             rating -= 2;
         }
 
-        if(favoriteDateLocation.equalsIgnoreCase(dateEvent.getLocation())) {
+        if (favoriteDateLocation.equalsIgnoreCase(dateEvent.getLocation())) {
             rating += 5;
         }
     }

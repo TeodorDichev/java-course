@@ -13,7 +13,7 @@ public class HumorousErgenka extends ParticipatingErgenka {
         rating += ((getHumorLevel() * 5) / dateEvent.getTensionLevel()) + (getRomanceLevel() / 3);
 
         int dateDuration = dateEvent.getDuration();
-        if(dateDuration < super.tooShortDateDuration) {
+        if (dateDuration < super.tooShortDateDuration) {
             rating -= 2;
         } else if (dateDuration > super.tooLongDateDuration) {
             rating -= 3;

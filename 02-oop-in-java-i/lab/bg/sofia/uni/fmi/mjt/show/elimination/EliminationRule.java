@@ -9,8 +9,9 @@ public interface EliminationRule {
 
     /**
      * Applies the elimination rule to the provided ergenkas.
+     *
      * @param ergenkas the current ergenkas, never {@code null}
      * @return an array with ergenkas that remain after elimination, never {@code null}
      */
-    Ergenka[] eliminateErgenkas (Ergenka[] ergenkas);
+    Ergenka[] eliminateErgenkas(Ergenka[] ergenkas);
 }
